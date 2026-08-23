@@ -1,0 +1,352 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 15px 20px;
+
+    background: #4facfe;
+}
+
+
+/* LOGO */
+
+.logo {
+    color: white;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+}
+
+
+/* SEARCH FORM */
+
+.search-form {
+    flex: 1;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+/* SEARCH INPUT */
+
+.search-form input {
+    flex: 1;
+
+    padding: 12px;
+
+    border: none;
+
+    outline: none;
+
+    font-size: 14px;
+
+    border-radius: 5px 0 0 5px;
+}
+
+
+/* SEARCH BUTTON */
+
+.search-form button {
+    padding: 12px 20px;
+
+    border: none;
+
+    background: white;
+
+    color: #4facfe;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    border-radius: 0 5px 5px 0;
+}
+
+.search-form button:hover {
+    background: #f0f0f0;
+}
+
+
+/* NAV LINKS */
+
+.nav-links {
+    display: flex;
+
+    gap: 15px;
+
+    white-space: nowrap;
+}
+
+.nav-links a {
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+
+/* CATEGORY STRIP */
+
+.category-strip {
+    display: flex;
+
+    gap: 20px;
+
+    padding: 10px 10px;
+
+    background: white;
+
+    overflow-x: auto;
+}
+
+.category-strip::-webkit-scrollbar {
+    height: 6px;
+}
+
+.category-strip::-webkit-scrollbar-thumb {
+    background: #ccc;
+}
+
+.cat-item {
+    min-width: 100px;
+
+    text-align: center;
+}
+
+.cat-item a {
+    text-decoration: none;
+
+    color: black;
+}
+
+.cat-item img {
+    width: 70px;
+
+    height: 50px;
+
+    object-fit: contain;
+
+    background: #f2f2f2;
+
+    padding: 10px;
+
+    border-radius: 50%;
+
+    transition: .3s;
+}
+
+.cat-item img:hover {
+    transform: scale(1.08);
+}
+
+.cat-item p {
+    font-size: 12px;
+}
+
+
+/* SORT */
+
+.sort-container {
+    padding: 10px;
+}
+
+.sort-container select {
+    padding: 10px 15px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 5px;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+
+/* PRODUCTS */
+
+.container {
+    padding: 15px;
+}
+
+
+/* GRID */
+
+.grid {
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 20px;
+}
+
+
+/* CARD */
+
+.card {
+    background: white;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+
+    height: 180px;
+
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.title {
+    font-size: 16px;
+
+    font-weight: bold;
+}
+
+.title a {
+    text-decoration: none;
+
+    color: rgb(127, 97, 238);
+}
+
+.author {
+    color: #666;
+
+    margin: 8px 0;
+
+    font-size: 12px;
+}
+
+.price {
+    color: #4facfe;
+
+    font-size: 16px;
+
+    font-weight: bold;
+}
+
+.in-stock {
+    color: green;
+}
+
+.out-stock {
+    color: red;
+}
+
+
+/* PAGINATION */
+
+.pagination {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 30px;
+
+    flex-wrap: wrap;
+}
+
+.pagination a {
+    background: #4facfe;
+
+    color: white;
+
+    padding: 8px 14px;
+
+    border-radius: 5px;
+
+    text-decoration: none;
+}
+
+.pagination a:hover {
+    background: #3793e6;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:1200px) {
+
+    .grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media(max-width:992px) {
+
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media(max-width:768px) {
+
+    .navbar {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .nav-links {
+        justify-content: center;
+
+        flex-wrap: wrap;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width:480px) {
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card img {
+        height: 220px;
+    }
+}

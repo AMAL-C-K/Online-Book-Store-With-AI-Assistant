@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BookStore Register</title>
+
+    <link rel="stylesheet" href="{% static 'register.css' %}">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            📚 BookStore
+        </div>
+
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+        </div>
+
+    </nav>
+
+    <div class="signup-wrapper">
+
+        <div class="signup-container">
+
+            <h2>Sign Up</h2>
+
+            <form method="post" action="{% url 'register' %}">
+                {% csrf_token %}
+
+                <div class="input-group">
+                    <label>Name</label>
+                    <input type="text" placeholder="Enter your name" name="name">
+                </div>
+
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" placeholder="Enter username" name="username">
+                </div>
+
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter email" name="email">
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter password" name="password">
+                </div>
+
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                    <input type="password" placeholder="Confirm password" name="confirm_password">
+                </div>
+
+                <button class="signup-btn" type="submit">
+                    Sign Up
+                </button>
+
+            </form>
+
+            <div class="signin-link">
+                Already have an account?
+                <a href="#">Sign In</a>
+            </div>
+            {% for message in messages%}
+            <p>{{message}}</p>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>

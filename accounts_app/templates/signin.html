@@ -1,0 +1,74 @@
+{% load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BookStore Login</title>
+
+    <link rel="stylesheet" href="{% static 'signin.css' %}">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            📚 BookStore
+        </div>
+
+        
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+        </div>
+
+    </nav>
+
+    <!-- LOGIN FORM -->
+    <div class="login-wrapper">
+
+        <div class="login-container">
+
+            <h2>Sign In</h2>
+
+            <form action="{% url 'signin' %}" method="post">
+
+                {% csrf_token %}
+
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" placeholder="Enter username"  name="username" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter password" name="password" required>
+                </div>
+
+                <button class="login-btn"  type="submit">
+                    Sign In
+                </button>
+
+            </form>
+
+            <div class="signup-link">
+                Don't have an account?
+                <a href="{% url 'register' %}">Sign Up</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,734 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'single_product.css' %}">
+
+    <title>{{ book.title }} - Book Details</title>
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================================
+         NAVBAR
+    ======================================== -->
+
+    <div class="navbar">
+
+        <div class="logo">
+
+            <a style="text-decoration: none;" href="/">
+                📚 BookStore
+            </a>
+
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+
+            {% if user.is_authenticated %}
+
+            <a href="{% url 'cart' %}">
+                My Cart
+            </a>
+
+
+            <a href="{% url 'orders' %}">
+                My Orders
+            </a>
+
+
+            <a href="#">
+                👤 {{ request.user }}
+            </a>
+
+
+            <a href="{% url 'logout' %}">
+                ❌ Logout
+            </a>
+
+
+            {% else %}
+
+            <a href="{% url 'signin' %}">
+                Login
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         MAIN PAGE
+    ======================================== -->
+
+    <div class="book-page-container">
+
+
+        <!-- ====================================
+             LEFT SIDE - PRODUCT DETAILS
+        ===================================== -->
+
+        <div class="product-container">
+
+
+            <!-- BOOK IMAGE -->
+
+            <div class="product-image">
+
+                {% if book.image %}
+
+                <img src="{{ book.image.url }}" alt="{{ book.title }}">
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- BOOK INFORMATION -->
+
+            <div class="product-details">
+
+
+                <div class="product-title">
+
+                    {{ book.title }}
+
+                </div>
+
+
+                <div class="author">
+
+                    by {{ book.author }}
+
+                </div>
+
+
+                <div class="genre">
+
+                    {{ book.genre }}
+
+                </div>
+
+
+                <div class="price">
+
+                    ₹{{ book.price }}
+
+                </div>
+
+
+                <div class="stock">
+
+                    {{ book.stock }} Stocks Available
+
+                </div>
+
+
+                <div class="description">
+
+                    {{ book.short_description }}
+
+                </div>
+
+
+
+                <!-- BUTTONS -->
+
+                <div class="button-group">
+
+
+                    <button class="btn cart-btn">
+
+                        <a href="{% url 'add' book.id %}" style="text-decoration: none;">
+                            Add to Cart
+                        </a>
+
+                    </button>
+
+
+                    <button class="btn checkout-btn">
+
+                        <a href="/" style="text-decoration: none;">
+                            Back To Home
+                        </a>
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ====================================
+             RIGHT SIDE - AI ASSISTANT
+        ===================================== -->
+
+        <div class="ai-book-assistant">
+
+
+            <h3>
+                🤖 AI Book Assistant
+            </h3>
+
+
+            <p class="ai-subtitle">
+
+                Ask me anything about this book.
+
+            </p>
+
+            <button type="button" id="clear-chat-button" class="clear-chat-button">
+                🗑️ Clear Chat
+            </button>
+
+            <!-- =================================
+                 CHAT HISTORY
+            ================================== -->
+
+            <div class="chat-messages" id="chat-messages">
+
+
+                {% for message in messages %}
+
+
+                {% if message.role == "user" %}
+
+                <div class="chat-message user-message">
+
+                    <strong>
+                        You
+                    </strong>
+
+                    <p>
+                        {{ message.content }}
+                    </p>
+
+                </div>
+
+
+                {% else %}
+
+                <div class="chat-message ai-message">
+
+                    <strong>
+                        🤖 AI
+                    </strong>
+
+                    <p>
+                        {{ message.content }}
+                    </p>
+
+                </div>
+
+                {% endif %}
+
+
+                {% empty %}
+
+                <div class="empty-chat" id="empty-chat">
+
+                    Start a conversation about this book.
+
+                </div>
+
+                {% endfor %}
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 CHAT FORM
+            ================================== -->
+
+            <form id="chat-form">
+
+                {% csrf_token %}
+
+
+                <input type="text" id="chat-input" name="question" placeholder="Ask about this book..."
+                    autocomplete="off" required>
+
+
+                <button type="submit" id="send-button">
+                    Send
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ========================================
+         JAVASCRIPT
+    ======================================== -->
+
+    <script>
+
+
+        const chatForm =
+            document.getElementById("chat-form");
+
+
+        const chatInput =
+            document.getElementById("chat-input");
+
+
+        const chatMessages =
+            document.getElementById("chat-messages");
+
+
+        const sendButton =
+            document.getElementById("send-button");
+
+
+
+        /* ========================================
+           REMOVE EMPTY CHAT MESSAGE
+        ======================================== */
+
+        function removeEmptyMessage() {
+
+            const emptyMessage =
+                document.getElementById("empty-chat");
+
+
+            if (emptyMessage) {
+
+                emptyMessage.remove();
+
+            }
+
+        }
+
+
+
+        /* ========================================
+           ESCAPE HTML
+           
+           Prevents user input from being
+           interpreted as HTML.
+        ======================================== */
+
+        function escapeHtml(text) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent = text;
+
+            return div.innerHTML;
+
+        }
+
+
+
+        /* ========================================
+           ADD MESSAGE
+           
+           New messages are inserted at TOP.
+        ======================================== */
+
+        function addMessage(role, message) {
+
+
+            removeEmptyMessage();
+
+
+            const messageDiv =
+                document.createElement("div");
+
+
+            messageDiv.classList.add(
+                "chat-message"
+            );
+
+
+            if (role === "user") {
+
+
+                messageDiv.classList.add(
+                    "user-message"
+                );
+
+
+                messageDiv.innerHTML = `
+
+                    <strong>
+                        You
+                    </strong>
+
+                    <p>
+                        ${escapeHtml(message)}
+                    </p>
+
+                `;
+
+
+            } else {
+
+
+                messageDiv.classList.add(
+                    "ai-message"
+                );
+
+
+                messageDiv.innerHTML = `
+
+                    <strong>
+                        🤖 AI
+                    </strong>
+
+                    <p>
+                        ${escapeHtml(message)}
+                    </p>
+
+                `;
+
+            }
+
+
+            /*
+                Latest message goes to the top
+            */
+
+            chatMessages.insertBefore(
+                messageDiv,
+                chatMessages.firstChild
+            );
+
+        }
+
+
+
+        /* ========================================
+           SEND MESSAGE
+        ======================================== */
+
+        chatForm.addEventListener(
+            "submit",
+            async function (event) {
+
+
+                event.preventDefault();
+
+
+                const question =
+                    chatInput.value.trim();
+
+
+                if (!question) {
+
+                    return;
+
+                }
+
+
+                /*
+                    Show user message immediately
+                */
+
+                addMessage(
+                    "user",
+                    question
+                );
+
+
+                /*
+                    Clear input
+                */
+
+                chatInput.value = "";
+
+
+                /*
+                    Disable button while
+                    Gemini is responding
+                */
+
+                sendButton.disabled = true;
+
+                sendButton.textContent =
+                    "Thinking...";
+
+
+
+                /*
+                    Create POST data
+                */
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "question",
+                    question
+                );
+
+
+
+                try {
+
+
+                    /*
+                        Send request to Django
+                    */
+
+                    const response =
+                        await fetch(
+
+                            "{% url 'book_chat_api' book.id %}",
+
+                            {
+
+                                method: "POST",
+
+                                headers: {
+
+                                    "X-CSRFToken":
+
+                                        document.querySelector(
+                                            "[name=csrfmiddlewaretoken]"
+                                        ).value
+
+                                },
+
+                                body: formData
+
+                            }
+
+                        );
+
+
+
+                    /*
+                        Convert response
+                        to JSON
+                    */
+
+                    const data =
+                        await response.json();
+
+
+
+                    /*
+                        Check Django response
+                    */
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.error ||
+                            "Something went wrong."
+                        );
+
+                    }
+
+
+
+                    /*
+                        Display AI answer
+                    */
+
+                    addMessage(
+                        "assistant",
+                        data.answer
+                    );
+
+
+                }
+
+
+                catch (error) {
+
+
+                    console.error(
+                        "AI Chat Error:",
+                        error
+                    );
+
+
+                    addMessage(
+                        "assistant",
+                        "Sorry, something went wrong. Please try again."
+                    );
+
+
+                }
+
+
+                finally {
+
+
+                    /*
+                        Enable button
+                    */
+
+                    sendButton.disabled = false;
+
+                    sendButton.textContent =
+                        "Send";
+
+
+                    /*
+                        Focus input
+                    */
+
+                    chatInput.focus();
+
+                }
+
+
+            }
+        );
+
+
+        const clearChatButton =
+            document.getElementById("clear-chat-button");
+
+
+        clearChatButton.addEventListener(
+            "click",
+            async function () {
+
+
+
+
+
+                clearChatButton.disabled = true;
+
+                clearChatButton.textContent =
+                    "Clearing...";
+
+
+                try {
+
+
+                    const response =
+                        await fetch(
+
+                            "{% url 'clear_book_chat' book.id %}",
+
+                            {
+
+                                method: "POST",
+
+                                headers: {
+
+                                    "X-CSRFToken":
+
+                                        document.querySelector(
+                                            "[name=csrfmiddlewaretoken]"
+                                        ).value
+
+                                }
+
+                            }
+
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.error ||
+                            "Unable to clear chat."
+                        );
+
+                    }
+
+
+                    /*
+                     * Remove all displayed messages
+                     */
+
+                    chatMessages.innerHTML = `
+
+                <div
+                    class="empty-chat"
+                    id="empty-chat"
+                >
+                    Start a conversation about this book.
+                </div>
+
+            `;
+
+
+                }
+
+
+                catch (error) {
+
+
+                    console.error(
+                        "Clear Chat Error:",
+                        error
+                    );
+
+
+                    alert(
+                        "Unable to clear the chat. Please try again."
+                    );
+
+
+                }
+
+
+                finally {
+
+
+                    clearChatButton.disabled = false;
+
+                    clearChatButton.textContent =
+                        "🗑️ Clear Chat";
+
+                }
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

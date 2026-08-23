@@ -1,0 +1,216 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Store</title>
+
+    <link rel="stylesheet" href="{% static 'genre_wise_products.css' %}">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            <a style="text-decoration: none;" href="/">📚 BookStore</a>
+        </div>
+
+        <!-- SEARCH -->
+
+        <form action="{% url 'search-book' %}" method="GET" class="search-form">
+
+            <input type="text" name="q" placeholder="Search books, authors...">
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+        <!-- NAV LINKS -->
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            {% if user.is_authenticated %}
+
+            <a href="{% url 'cart' %}">
+                My Cart
+            </a>
+
+            <a href="{% url 'orders' %}">
+                Orders
+            </a>
+
+            <a href="#">
+                👤 {{request.user}}
+            </a>
+
+            <a href="{% url 'logout' %}">
+                Logout
+            </a>
+
+            {% else %}
+
+            <a href="{% url 'signin' %}">
+                Login
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- CATEGORY -->
+
+    <div class="category-strip">
+
+        <div class="cat-item">
+
+            <img src="{{genre.image.url}}">
+
+            <span>{{genre}}</span>
+
+        </div>
+
+    </div>
+
+    <form method="GET">
+
+        <select name="sort" onchange="this.form.submit()">
+
+            <option value="">Newest</option>
+
+            <option value="a-z" {% if request.GET.sort=='a-z' %}selected{% endif %}>
+                A-Z
+            </option>
+
+            <option value="low-high" {% if request.GET.sort=='low-high' %}selected{% endif %}>
+                Price Low to High
+            </option>
+
+            <option value="high-low" {% if request.GET.sort=='high-low' %}selected{% endif %}>
+                Price High to Low
+            </option>
+
+        </select>
+
+    </form>
+
+    <!-- PRODUCTS -->
+
+    <div class="container">
+
+        <div class="grid">
+
+            {% for book in page_obj %}
+
+            <div class="card">
+
+                <img src="{{book.image.url}}">
+
+                <div class="card-body">
+
+                    <div class="title">
+
+                        <a href="{{book.get_book_url}}" style="text-decoration: none;">
+
+                            {{book.title}}
+
+                        </a>
+
+                    </div>
+
+                    <div class="author">
+
+                        {{book.author}}
+
+                    </div>
+
+                    <div class="price">
+
+                        ₹{{book.price}}
+
+                    </div>
+
+                    {% if book.stock >= 1 %}
+
+                    <div class="stock in-stock">
+
+                        In Stock
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="stock out-stock">
+
+                        Out of Stock
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- PAGINATION -->
+
+    <div class="pagination">
+
+        {% if page_obj.has_previous %}
+
+        <a href="?page=1{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+            First
+        </a>
+
+        <a
+            href="?page={{ page_obj.previous_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+            Previous
+        </a>
+
+        {% endif %}
+
+        <span>
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+
+        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+            Next
+        </a>
+
+        <a
+            href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+            Last
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

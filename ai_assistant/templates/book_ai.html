@@ -1,0 +1,48 @@
+<h1>AI Book Assistant</h1>
+
+<h2>{{ book.title }}</h2>
+
+<p>
+    <strong>Author:</strong>
+    {{ book.author }}
+</p>
+
+<p>
+    <strong>Genre:</strong>
+    {{ book.genre.genre }}
+</p>
+
+<p>
+    {{ book.short_description }}
+</p>
+
+<hr>
+
+<h3>Ask AI About This Book</h3>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <input
+        type="text"
+        name="question"
+        placeholder="Ask something about this book..."
+        required
+    >
+
+    <button type="submit">
+        Ask AI
+    </button>
+
+</form>
+
+{% if answer %}
+
+<hr>
+
+<h3>AI Answer</h3>
+
+<p>{{ answer }}</p>
+
+{% endif %}

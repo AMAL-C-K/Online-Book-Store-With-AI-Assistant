@@ -1,0 +1,549 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f5f5f5;
+}
+
+/* NAVBAR */
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #4facfe;
+    padding: 10px 20px;
+    color: white;
+    
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+.nav-links a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+
+ /* book detail container */
+
+.book-page-container {
+
+    width: 94%;
+
+    max-width: 1400px;
+
+    margin: 5px auto;
+
+    display: grid;
+
+
+/*  LEFT=large product section RIGHT=small AI section */
+
+    grid-template-columns:
+        minmax(0, 4fr) minmax(260px, 1fr);
+
+    gap: 5px;
+
+    align-items: start;
+
+}
+
+
+
+/* ========================================
+           BOOK DETAILS - LEFT SIDE
+        ======================================== */
+
+.product-container {
+
+    display: grid;
+
+    grid-template-columns: 250px 1fr;
+
+    gap: 20px;
+
+    padding: 35px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.08);
+
+    min-width: 0;
+
+}
+
+
+
+/* ========================================
+           BOOK IMAGE
+        ======================================== */
+
+.product-image {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: flex-start;
+
+}
+
+
+.product-image img {
+
+    width: 220px;
+    height: 400px;
+    max-width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+
+
+/* ========================================
+           BOOK DETAILS
+        ======================================== */
+
+.product-details {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    min-width: 0;
+
+}
+
+
+.product-title {
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    line-height: 1.3;
+
+}
+
+
+.author {
+
+    font-size: 17px;
+
+    color: #555;
+
+}
+
+
+.genre {
+
+    font-size: 15px;
+
+    color: #777;
+
+}
+
+
+.price {
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+}
+
+
+.stock {
+
+    font-size: 14px;
+
+    color: #555;
+
+}
+
+
+.description {
+
+    line-height: 1.7;
+
+    margin-top: 10px;
+
+    font-size: 16px;
+
+    color: #333;
+
+}
+
+
+/* ========================================
+           BUTTONS
+        ======================================== */
+
+.button-group {
+
+    display: flex;
+
+    gap: 15px;
+
+    margin-top: 25px;
+
+}
+
+
+.btn {
+
+    border: none;
+
+    padding: 12px 18px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+}
+
+
+.btn a {
+
+    color: white;
+
+}
+
+/* ========================================
+           AI ASSISTANT - RIGHT SIDE
+        ======================================== */
+
+.ai-book-assistant {
+
+    padding: 16px;
+
+    background: #f8f9fa;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.08);
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    min-width: 0;
+
+}
+
+
+.ai-book-assistant h3 {
+
+    margin-top: 0;
+
+    margin-bottom: 8px;
+
+    font-size: 19px;
+
+    line-height: 1.3;
+
+}
+
+
+.ai-subtitle {
+
+    color: #666;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    margin-top: 0;
+
+    margin-bottom: 12px;
+
+}
+
+
+
+/* ========================================
+           CHAT MESSAGES
+        ======================================== */
+
+.chat-messages {
+
+    height: 270px;
+
+    overflow-y: auto;
+
+    margin-top: 15px;
+
+    margin-bottom: 15px;
+
+    padding: 10px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    border: 1px solid #ddd;
+
+    box-sizing: border-box;
+
+}
+
+
+
+/* ========================================
+           INDIVIDUAL CHAT MESSAGE
+        ======================================== */
+
+.chat-message {
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    word-wrap: break-word;
+
+    overflow-wrap: break-word;
+
+}
+
+
+.chat-message p {
+
+    margin: 5px 0 0 0;
+
+}
+
+
+
+/* ========================================
+           USER MESSAGE
+        ======================================== */
+
+.user-message {
+
+    background: #e9ecef;
+
+    align-self: flex-end;
+
+    max-width: 90%;
+
+}
+
+
+
+/* ========================================
+           AI MESSAGE
+        ======================================== */
+
+.ai-message {
+
+    background: #f8f8f8;
+
+    border: 1px solid #ddd;
+
+    align-self: flex-start;
+
+    max-width: 90%;
+
+}
+
+
+
+/* ========================================
+           EMPTY CHAT
+        ======================================== */
+
+.empty-chat {
+
+    color: #777;
+
+    font-size: 13px;
+
+    text-align: center;
+
+    padding: 30px 10px;
+
+}
+
+
+
+/* ========================================
+           AI INPUT
+        ======================================== */
+
+.ai-book-assistant input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 10px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+
+    margin-bottom: 8px;
+
+    outline: none;
+
+}
+
+
+.ai-book-assistant input:focus {
+
+    border-color: #777;
+
+}
+
+
+
+/* ========================================
+           AI BUTTON
+        ======================================== */
+
+.ai-book-assistant button {
+
+    width: 100%;
+
+    padding: 10px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    background: #222;
+
+    color: white;
+
+}
+
+
+.ai-book-assistant button:disabled {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+
+}
+
+
+/* ========================================
+                    CLEAR CHAT BUTTON
+            ======================================== */
+
+.clear-chat-button {
+
+    width: 100%;
+
+    padding: 8px;
+
+    margin-bottom: 10px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 7px;
+
+    background: white;
+
+    color: #555;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+}
+
+
+.clear-chat-button:hover {
+
+    background: #f1f1f1;
+
+}
+
+
+/* ========================================
+                    MOBILE
+        ======================================== */
+
+@media (max-width: 768px) {
+
+    .book-page-container {
+
+        width: 95%;
+
+        grid-template-columns: 1fr;
+
+        gap: 25px;
+
+    }
+
+
+    .product-container {
+
+        grid-template-columns: 1fr;
+
+        padding: 20px;
+
+    }
+
+
+    .product-image {
+
+        justify-content: center;
+
+    }
+
+
+    .button-group {
+
+        flex-direction: column;
+
+    }
+
+
+    .btn {
+
+        width: 100%;
+
+    }
+
+
+    .chat-messages {
+
+        height: 350px;
+
+    }
+
+}

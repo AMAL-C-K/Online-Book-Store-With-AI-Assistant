@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BookStore Cart</title>
+
+    <link rel="stylesheet" href="{% static 'cart.css' %}">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            📚 BookStore
+        </div>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Search books, authors...">
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+
+            {% if user.is_authenticated %}
+            <a href="{% url 'orders' %}">My Orders</a>
+            <a href="#">👤 {{request.user}}</a>
+            <a href="{% url 'logout' %}">❌Logout</a>
+            {% else %}
+
+            <a href="{% url 'signin' %}">Login</a>
+
+            {% endif %}
+        </div>
+
+    </nav>
+
+    <!-- CART SECTION -->
+    <div class="cart-container">
+
+        <h2>My Cart</h2>
+
+
+        {% for item in cart_items %}
+        <!-- CART ITEM -->
+        <div class="cart-item">
+
+            <img src="{{ item.book.image.url}}" alt="Book">
+
+            <div class="cart-details">
+                <h3>{{item.book.title}}</h3>
+                <p>Author: {{item.book.author}}</p>
+                <p>Price: ₹{{item.book.price}}</p>
+            </div>
+
+            <div class="cart-actions">
+
+                <!-- MINUS BUTTON -->
+                <button class="qty-btn">
+                    <a href="{% url 'minus' item.id %}">-</a>
+                </button>
+
+                <!-- QUANTITY -->
+                <input type="number" value="{{ item.quantity }}" min="1" style="text-align: center;" readonly>
+
+                <!-- PLUS BUTTON -->
+                <button class="qty-btn">
+                    <a href="{% url 'plus' item.id %}" style="color: black;text-decoration: none;">+</a>
+                </button>
+
+                <!-- REMOVE BUTTON -->
+                <button class="remove-btn">
+                    <a href="{% url 'remove' item.id %}"
+                        style="background: rgb(241, 10, 10);text-decoration: none;">Remove</a>
+                </button>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        <!-- TOTAL -->
+        <div class="cart-total">
+            <h3>Total: ₹{{total}}</h3>
+            <button class="checkout-btn">
+                <a href="{% url 'checkout' %}">Proceed to Checkout</a>
+            </button>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
