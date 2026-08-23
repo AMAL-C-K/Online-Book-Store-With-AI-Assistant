@@ -460,34 +460,22 @@ body {
             ======================================== */
 
 .clear-chat-button {
-
     width: 100%;
-
-    padding: 8px;
-
+    padding: 10px;
     margin-bottom: 10px;
-
-    border: 1px solid #ccc;
-
+    border: none;
     border-radius: 7px;
-
-    background: white;
-
-    color: #555;
-
+    background: #dc3545;
+    color: white;
     cursor: pointer;
-
-    font-size: 12px;
-
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s ease;
 }
-
 
 .clear-chat-button:hover {
-
-    background: #f1f1f1;
-
+    background: #b02a37;
 }
-
 
 /* ========================================
                     MOBILE
