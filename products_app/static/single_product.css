@@ -195,36 +195,31 @@ body {
         ======================================== */
 
 .button-group {
-
     display: flex;
-
     gap: 15px;
-
     margin-top: 25px;
-
 }
-
 
 .btn {
-
     border: none;
-
     padding: 12px 18px;
-
     border-radius: 6px;
-
     cursor: pointer;
-
-    color: green;
+    background-color: #4facfe;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
 }
-
 
 .btn a {
-
     color: white;
-
+    text-decoration: none;
 }
 
+.btn:hover {
+    background-color: #2f8fe8;
+}
 /* ========================================
            AI ASSISTANT - RIGHT SIDE
         ======================================== */
