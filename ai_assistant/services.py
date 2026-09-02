@@ -1,5 +1,5 @@
-
 import time
+
 from django.conf import settings
 from google import genai
 from google.genai.errors import ServerError
@@ -94,11 +94,17 @@ Instructions:
 
                     continue
 
-            # Other server errors
+                # All retries failed
+                raise Exception(
+                    "Gemini is temporarily unavailable. "
+                    "Please try again later."
+                )
+
+            # Other Gemini server errors
             raise
 
+    # Safety fallback
     raise Exception(
         "Gemini is temporarily unavailable. "
         "Please try again later."
     )
-
