@@ -74,9 +74,12 @@ def book_chat_api(request, book_id):
 
             return JsonResponse(
                 {
-                    "error": str(e)
+                    "error": (
+                        "AI service is temporarily unavailable. "
+                        "Please try again later."
+                    )
                 },
-                status=500
+                status=503
             )
 
         conversation.messages.create(
@@ -124,9 +127,12 @@ def book_chat_api(request, book_id):
 
         return JsonResponse(
             {
-                "error": str(e)
+                "error": (
+                    "AI service is temporarily unavailable. "
+                    "Please try again later."
+                )
             },
-            status=500
+            status=503
         )
 
     # Save AI response
@@ -177,4 +183,3 @@ def clear_book_chat(request, book_id):
     return JsonResponse({
         "success": True
     })
-
